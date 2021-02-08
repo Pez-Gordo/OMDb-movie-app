@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OMDb Movie APP</title>
+    <!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center mt5">Movie Info App</h1>
+        <form id="movieForm" autocomplete="off">
+            <div class="form-group">
+                <label for="Movie">Movie Name</label>
+                <input class="form-control" type="text"  id="movie" placeholder="Movie..." />
+            </div>
+            <div class="form-group">
+                <button class="btn btn-danger btn-block">
+                    Search Movie
+                </button>
+            </div>  
+        </form>
+        <div id="result"></div>
+    </div>    
+</body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+
+            var apikey = "8b8983ad"
+
+            $("#movieForm").submit(function(event) {
+
+                event.preventDefault()
+
+                var movie = $("#movie").val()
+
+                var url = "http://www.omdbapi.com/?apikey=" + apikey
+
+                $.ajax({
+                    method: "GET",
+                    url: url + "&t=" + movie,
+                    success:
+                        function (data) {
+                            console.log(data)
+
+                            result = `
+                            <div>
+                                <img src="${data.Poster}" style="float:center" class="img-thumnail" width="200" height="200" />
+                            </div>
+                            <div>
+                                <h6>Title    --> ${data.Title}</h6>
+                                <h6>Type --> ${data.Type}</h6>
+                                <h6>Release Date --> ${data.Released}</h6>
+                                <h6>Length --> ${data.Runtime}</h6>
+                                <h6>Genre --> ${data.Genre}</h6>
+                                <h6>Director --> ${data.Director}</h6>
+                                <h6>Actors --> ${data.Actors}</h6>
+                                <h6>Awards --> ${data.Awards}</h6>
+                                <h6>Recaudation --> ${data.BoxOffice}</h6>
+                                <h6>Language --> ${data.Language}</h6>
+                                <h6>Production --> ${data.Production}</h6>
+                                <h6>IMDb Rating --> ${data.imdbRating}</h6>
+                                <h6>Number of votes --> ${data.imdbVotes}</h6>
+                                <h6>Synopsis --> ${data.Plot}</h6>
+                            </div>
+                            `;
+
+                            $("#result").html(result)
+
+
+                        }
+                })
+
+            })
+        })
+    </script>
+</html>
